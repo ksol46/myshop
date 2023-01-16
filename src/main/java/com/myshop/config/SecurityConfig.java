@@ -24,10 +24,10 @@ public class SecurityConfig {
 	}
 	*/
 	
-		@Autowired
+		@Autowired //생성자주입
 		MemberService memberService;
 		
-		@Bean
+		@Bean //스프링에서 사용하는 객체.
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			//로그인에 대한 설정
 			http.formLogin()
