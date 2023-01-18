@@ -32,7 +32,7 @@ import org.thymeleaf.util.StringUtils;
 //실행이 안될 때는 my
 class ItemRepositoryTest {
 
-	@Autowired
+	@Autowired //의존성주입
 	ItemRepository itemRepository;
 	
 	
