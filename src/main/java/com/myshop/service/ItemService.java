@@ -37,7 +37,7 @@ public class ItemService {
 			itemImg.setItem(item);
 			
 			//첫번째 이미지 일 때 대표 상품 이미지 여부 지정
-			if(i == 0) {
+			if(i == 0) { //0번째 인덱스
 				itemImg.setRepimgYn("Y");
 			} else {
 				itemImg.setRepimgYn("N");

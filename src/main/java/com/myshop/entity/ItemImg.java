@@ -22,7 +22,7 @@ public class ItemImg extends BaseEntity{
 	
 	private String repimgYn; //대표 이미지 여부
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY) //일대다 관계의 경우 지연설정 가능.
 	@JoinColumn(name = "item_id")
 	private Item item;
 	
