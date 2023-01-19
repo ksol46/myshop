@@ -16,7 +16,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Member {
+						//BaseEntity 정보가 딸려온다.
+public class Member extends BaseEntity{
 	
 	@Id
 	@Column(name="member_id")

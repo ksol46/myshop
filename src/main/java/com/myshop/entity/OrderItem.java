@@ -11,7 +11,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class OrderItem {
+					//BaseEntity 정보가 딸려온다.
+public class OrderItem extends BaseEntity {
 	@Id
 	@Column(name = "order_item_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
