@@ -12,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myshop.dto.MemberFormDto;
 import com.myshop.repository.CartRepository;
 import com.myshop.repository.MemberRepository;
+import com.myshop.service.MemberService;
 
 @SpringBootTest
 @Transactional
@@ -29,19 +31,19 @@ class CartTest {
 	MemberRepository memberRepository;
 	
 	@Autowired
-	PasswordEncoder passwordEncorder;
+	PasswordEncoder passwordEncoder;
 	
 	@PersistenceContext
 	EntityManager em;
 	
 	public Member createMember() {
 		MemberFormDto member = new MemberFormDto();
-		member.setName("김솔");
+		member.setName("홍길동");
 		member.setEmail("test@email.com");
-		member.setAddress("경기도 남양주시 다산동");
+		member.setAddress("서울시 마포구 합정동");
 		member.setPassword("1234");
-		
-		return Member.createMember(member, passwordEncorder);
+	
+		return Member.createMember(member, passwordEncoder);
 	}
 	
 	@Test
@@ -54,14 +56,14 @@ class CartTest {
 		cart.setMember(member);
 		cartRepository.save(cart);
 		
-		em.flush(); //트랜잭션이 끝날 때 데이터 베이스에 반영
-		em.clear(); //영속성 컨텍스트를 비워준다. -> 실제 데이터베이스에서 장바구니를 엔티티를 가지고 올 때 회원 엔티티도 같이 가지고 오는지 보기 위해.
+		em.flush(); //트랜잭션이 끝날때 데이터 베이스에 반영
+		em.clear(); //영속성 컨텍스트를 비워준다. -> 실제 데이터베이스에서 장바구니를 엔티티를 가지고 올때 회원 엔티티도 같이 가지고오는지 보기 위해.
 		
-		Cart savedCart = cartRepository.findById(cart.getId())
-				.orElseThrow(EntityNotFoundException::new);
+	    Cart savedCart = cartRepository.findById(cart.getId())
+	    		.orElseThrow(EntityNotFoundException::new);
+	    
+	    assertEquals(savedCart.getMember().getId(), member.getId());
 		
-		assertEquals(savedCart.getMember().getId(),member.getId());
 	}
 	
-
 }

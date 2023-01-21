@@ -12,13 +12,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="member") //테이블명 (데이터 베이스에 들어가는 테이블명)
+@Table(name="member") //테이블명
 @Getter
 @Setter
 @ToString
-						//BaseEntity 정보가 딸려온다.
-public class Member extends BaseEntity{
-	
+public class Member extends BaseEntity {
 	@Id
 	@Column(name="member_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)

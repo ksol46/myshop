@@ -3,10 +3,6 @@ package com.myshop.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
 import org.modelmapper.ModelMapper;
@@ -14,7 +10,8 @@ import org.modelmapper.ModelMapper;
 import com.myshop.constant.ItemSellStatus;
 import com.myshop.entity.Item;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -35,22 +32,17 @@ public class ItemFormDto {
 	
 	private ItemSellStatus itemSellStatus; //상품 판매상태
 	
-	private List<ItemImgDto> itemImgDtoList = new ArrayList(); //상품 이미지 정보를 저장하는 리스트
+	private List<ItemImgDto> itemImgDtoList = new ArrayList<>(); //상품 이미지 정보를 저장하는 리스트
 	
-	private List<Long> itemImgIds = new ArrayList<>(); //상품의 이미지 아이디를 저장 -> 수정시에 이미지 아이디를 담아 둘 용도
+	private List<Long> itemImgIds = new ArrayList<>(); //상품의 이미지 아이디를 저장 -> 수정시에 이미지 아이디를 담아 둘 용도.
 	
 	private static ModelMapper modelMapper = new ModelMapper();
 	
-	//modelMapper : 매핑 하겠다.
-	
-	//dto를 엔티티로 만들려는 메소드
 	public Item createItem() {
 		return modelMapper.map(this, Item.class);
 	}
 	
-	//엔티티를 dto로 만들려는 메소드
 	public static ItemFormDto of(Item item) {
 		return modelMapper.map(item, ItemFormDto.class);
 	}
-	
 }

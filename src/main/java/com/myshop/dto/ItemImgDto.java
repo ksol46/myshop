@@ -4,12 +4,12 @@ import org.modelmapper.ModelMapper;
 
 import com.myshop.entity.ItemImg;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
 public class ItemImgDto {
-	
 	private Long id;
 	
 	private String imgName; //이미지 파일명
@@ -23,6 +23,7 @@ public class ItemImgDto {
 	private static ModelMapper modelMapper = new ModelMapper();
 	
 	public static ItemImgDto of(ItemImg itemImg) {
-		return modelMapper.map(itemImg, ItemImgDto.class); //map : 찾아줌.
+		return modelMapper.map(itemImg, ItemImgDto.class);
 	}
 }
+

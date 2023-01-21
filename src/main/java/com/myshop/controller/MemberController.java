@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,20 +22,19 @@ import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/members")
 @Controller
-@RequiredArgsConstructor //생성자 주입
+@RequiredArgsConstructor
 public class MemberController {
-
 	private final MemberService memberService;
-	private final PasswordEncoder passwordEncorder;
+	private final PasswordEncoder passwordEncoder;
 	
-	//회원가입 화면
+	//회원가입 화면 
 	@GetMapping(value = "/new")
 	public String memberForm(Model model) {
 		model.addAttribute("memberFormDto", new MemberFormDto());
 		return "member/memberForm";
 	}
-
-	//회원가입 버튼을 눌렀을 때 실행되는 메소드
+	
+	//회원가입 버튼을 눌렀을때 실행되는 메소드
 	@PostMapping(value = "/new")
 	public String memberForm(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model) {
 		//@Valid : 유효성을 검증하려는 객체 앞에 붙인다.
@@ -46,9 +44,10 @@ public class MemberController {
 		if(bindingResult.hasErrors()) {
 			return "member/memberForm";
 		}
-		try {
-		Member member = Member.createMember(memberFormDto, passwordEncorder);
-		memberService.saveMember(member);
+		
+		try {			
+			Member member = Member.createMember(memberFormDto, passwordEncoder);
+			memberService.saveMember(member);
 		} catch (IllegalStateException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 			return "member/memberForm";
@@ -57,32 +56,34 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
-	//로그인 화면
+	//로그인 화면 
 	@GetMapping(value = "/login")
 	public String loginMember() {
 		return "member/memberLoginForm";
 	}
 	
 	private final SessionManager sessionManager;
+	
 	/*
 	//쿠키, 세션 테스트
-		@PostMapping(value = "/login2")
-		public String loginMember2(HttpServletResponse response, HttpSession session, @RequestParam String email) {
-			System.out.println("email:" + email);
-			Cookie idCookie = new Cookie("userCookieId", email);
-			response.addCookie(idCookie);
-			
-			//session.setAttribute("useSessionId2", email);
-			sessionManager.createSession(email, response);
-			
-			return "member/memberLoginForm";
-		}
+	@PostMapping(value = "/login2")
+	public String loginMember2(HttpServletResponse response, HttpSession session, @RequestParam String email) {
+		System.out.println("email: " + email);
+		Cookie idCookie = new Cookie("userCookieId2", email);
+		response.addCookie(idCookie);
+		
+		session.setAttribute("useSessionId2", email);
+		
+		sessionManager.createSession(email, response);
+		
+		return "member/memberLoginForm";
+	}
 	*/
+	
 	//로그인을 실패했을때
 	@GetMapping(value = "/login/error")
 	public String loginError(Model model) {
 		model.addAttribute("loginErrorMsg", "아이디 또는 비밀번호를 확인해주세요.");
-		return "member/memberloginForm";
+		return "member/memberLoginForm";
 	}
-	
 }

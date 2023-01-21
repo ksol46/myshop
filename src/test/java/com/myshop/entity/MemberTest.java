@@ -18,16 +18,15 @@ import com.myshop.repository.MemberRepository;
 
 @SpringBootTest
 @Transactional
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations="classpath:application-test.properties")
 class MemberTest {
-
+	
 	@Autowired
 	MemberRepository memberRepository;
 	
 	@PersistenceContext
 	EntityManager em;
-	
-	
+
 	@Test
 	@DisplayName("auditing 테스트")
 	@WithMockUser(username = "gildong", roles = "USER") //지정한 사용자가 로그인 상태라고 가정한다.
@@ -43,7 +42,7 @@ class MemberTest {
 		
 		System.out.println("등록시간: " + member.getRegTime());
 		System.out.println("수정시간: " + member.getUpDateTime());
-		System.out.println("등록한 사람: " + member.getCreateBy());
+		System.out.println("등록한 사람: " + member.getCreatedBy());
 		System.out.println("수정한 사람: " + member.getModifiedBy());
 	}
 

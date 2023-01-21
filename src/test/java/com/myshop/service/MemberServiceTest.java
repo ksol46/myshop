@@ -43,12 +43,12 @@ class MemberServiceTest {
 		Member member = createMember();
 		Member savedMember = memberService.saveMember(member); //insert
 		
+		//저장하려고 했던 값과 실제 저장된 데이터를 비교
 		assertEquals(member.getEmail(), savedMember.getEmail());
 		assertEquals(member.getName(), savedMember.getName());
 		assertEquals(member.getAddress(), savedMember.getAddress());
 		assertEquals(member.getPassword(), savedMember.getPassword());
 		assertEquals(member.getRole(), savedMember.getRole());
-		
 	}
 	
 	@Test
@@ -62,8 +62,9 @@ class MemberServiceTest {
 		//예외처리 테스트
 		Throwable e = assertThrows(IllegalStateException.class, ()-> {
 			memberService.saveMember(member2);
-	});
-	
-		assertEquals("이미 가입된 회원입니다.", e.getMessage()); //예외처리. 문구를 표시해줌.
-}
+		});
+		
+		assertEquals("이미 가입된 회원입니다.", e.getMessage());
+	}
+
 }

@@ -35,9 +35,9 @@ class MemberControllerTest {
 	
 	public Member createMember(String email, String password) {
 		MemberFormDto member = new MemberFormDto();
-		member.setName("김솔");
+		member.setName("홍길동");
 		member.setEmail(email);
-		member.setAddress("경기도 남양주시 다산동");
+		member.setAddress("서울시 마포구 합정동");
 		member.setPassword(password);
 		
 		Member member2 = Member.createMember(member, passwordEncoder);
@@ -47,7 +47,7 @@ class MemberControllerTest {
 	@Test
 	@DisplayName("로그인 성공 테스트")
 	public void loginSuccessTest() throws Exception {
-		String email = "test@email.com";
+        String email = "test@email.com";
         String password = "1234";
         this.createMember(email, password);
         mockMvc.perform(formLogin().userParameter("email")
@@ -59,7 +59,7 @@ class MemberControllerTest {
 	@Test
 	@DisplayName("로그인 실패 테스트")
 	public void loginFailTest() throws Exception {
-		String email = "test@email.com";
+        String email = "test@email.com";
         String password = "1234";
         this.createMember(email, password);
         mockMvc.perform(formLogin().userParameter("email")
@@ -67,4 +67,5 @@ class MemberControllerTest {
                 .user(email).password("12345"))
                 .andExpect(SecurityMockMvcResultMatchers.unauthenticated()); //로그인이 실패해서 인증되면 테스트 코드를 통과시킨다.
 	}
+
 }

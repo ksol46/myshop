@@ -11,53 +11,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.myshop.dto.ItemDto;
 
-@Controller // -> 컨트롤러의 역할을 하는 클래스를 정의
-@RequestMapping(value = "/thymeleaf") // request url경로를 지정
+@Controller //컨트롤러의 역할을 하는 클래스를 정의
+@RequestMapping(value = "/thymeleaf") //request url 경로지정
 public class ThymeleafExController {
-	// 얘도 url 경로를 지정함. / http:localhost/thymeleaf/ex01 경로로 갈 때 밑에 있는 메소드가 실행됨.
+	
 	@GetMapping(value = "/ex01")
 	public String thymeleafEx01(Model model) {
-		// request.setAttribute(key, value);와 같음.
 		model.addAttribute("data", "타임리프 예제 입니다.");
-
-		// templates 밑 경로를 리턴 받는다.
 		return "thymeleafEx/thymeleafEx01";
 	}
-
+	
 	@GetMapping(value = "/ex02")
 	public String thymeleafEx02(Model model) {
 		ItemDto itemDto = new ItemDto();
-
+		
 		itemDto.setItemNm("테스트 상품");
 		itemDto.setPrice(10000);
 		itemDto.setItemDetail("테스트 상품 상세 설명");
 		itemDto.setRegTime(LocalDateTime.now());
-
-		model.addAttribute("itemDto", itemDto); // 헷갈리지 않게 이름 같게 해주삼.
-
+		
+		model.addAttribute("itemDto", itemDto);
+		
 		return "thymeleafEx/thymeleafEx02";
 	}
-
+	
 	@GetMapping(value = "/ex03")
 	public String thymeleafEx03(Model model) {
-
+		
 		List<ItemDto> itemDtoList = new ArrayList<>();
-
-		for (int i = 1; i <= 10; i++) {
+		
+		for(int i=1; i<=10; i++) {			
 			ItemDto itemDto = new ItemDto();
 			itemDto.setItemNm("테스트 상품" + i);
 			itemDto.setPrice(10000 + i);
 			itemDto.setItemDetail("테스트 상품 상세 설명" + i);
 			itemDto.setRegTime(LocalDateTime.now());
-
+			
 			itemDtoList.add(itemDto);
 		}
-
+		
 		model.addAttribute("itemDtoList", itemDtoList);
 
 		return "thymeleafEx/thymeleafEx03";
 	}
-
+	
 	@GetMapping(value = "/ex04")
 	public String thymeleafEx04(Model model) {
 		
@@ -97,5 +94,4 @@ public class ThymeleafExController {
 	public String thymeleafEx07(Model model) {
 		return "thymeleafEx/thymeleafEx07";
 	}
-	
 }

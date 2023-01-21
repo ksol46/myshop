@@ -2,20 +2,19 @@ package com.myshop.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-
-import com.myshop.constant.ItemSellStatus;
-
 import javax.persistence.*;
+import com.myshop.constant.ItemSellStatus;
+import com.myshop.dto.ItemFormDto;
+
 import lombok.*;
 
 @Entity
-@Table(name="item") //테이블명 (데이터 베이스에 들어가는 테이블명)
+@Table(name="item") //테이블명
 @Getter
 @Setter
 @ToString
-public class Item extends BaseEntity{
-	//not null이 아니면 int가 아니고 Integer로 써야한다, 필드 타입을 객체로 지정해야 한다.
+public class Item extends BaseEntity {
+	//not null이 아닐때는 필드 타입을 객체(예 int - Integer)로 지정해야 한다. 
 	
 	@Id
 	@Column(name="item_id")
@@ -35,7 +34,14 @@ public class Item extends BaseEntity{
 	@Column(nullable = false)
 	private String itemDetail; //상품 상세설명
 	
-	@Enumerated(EnumType.STRING) //열거형 타입으로 설정시 내가 만들어놓은 상수만 사용할 수 있음
+	@Enumerated(EnumType.STRING)
 	private ItemSellStatus itemSellStatus; //상품 판매상태
 	
+	public void updateItem(ItemFormDto itemFormDto) {
+		this.itemNm = itemFormDto.getItemNm();
+		this.price = itemFormDto.getPrice();
+		this.stockNumber = itemFormDto.getStockNumber();
+		this.itemDetail = itemFormDto.getItemDetail();
+		this.itemSellStatus = itemFormDto.getItemSellStatus();
+	}
 }
