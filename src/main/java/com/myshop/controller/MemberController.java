@@ -21,8 +21,11 @@ import com.myshop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/members")
+//uri을 매핑할 때 사용함.
 @Controller
+//컨트롤러로 사용하겠다.
 @RequiredArgsConstructor
+//생성자 주입
 public class MemberController {
 	private final MemberService memberService;
 	private final PasswordEncoder passwordEncoder;

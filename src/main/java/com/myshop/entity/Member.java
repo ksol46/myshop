@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
+@Entity //db가 해당 객체를 인식 가능!
 @Table(name="member") //테이블명
 @Getter
 @Setter
@@ -19,7 +19,7 @@ import lombok.ToString;
 public class Member extends BaseEntity {
 	@Id
 	@Column(name="member_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO) //자동생성 어노테이션
 	private Long id;
 	
 	private String name;

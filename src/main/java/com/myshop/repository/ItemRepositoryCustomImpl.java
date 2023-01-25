@@ -12,8 +12,11 @@ import org.thymeleaf.util.StringUtils;
 
 import com.myshop.constant.ItemSellStatus;
 import com.myshop.dto.ItemSearchDto;
+import com.myshop.dto.MainItemDto;
+import com.myshop.dto.QMainItemDto;
 import com.myshop.entity.Item;
 import com.myshop.entity.QItem;
+import com.myshop.entity.QItemImg;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -62,14 +65,14 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 				.selectFrom(QItem.item) //select * from item
 				.where(regDtsAfter(itemSearchDto.getSearchDateType()), // where reg_time = ?
 					   searchSellStatusEq(itemSearchDto.getSearchSellStatus()), //and sell_status = ?
-					   searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery())) // and itemNm LIKE %검색어%
+					   searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery())) // and itemNm LIKE %검색어% 검색기능
 				.orderBy(QItem.item.id.desc())
 				.offset(pageable.getOffset()) //데이터를 가져올 시작 index
 				.limit(pageable.getPageSize()) //한번에 가지고 올 최대 개수
 				.fetch();
 		
-		//long total = content.size(); //전체 레코드 갯수
-		
+		//https://querydsl.com/static/querydsl/4.1.0/apidocs/com/querydsl/core/types/dsl/Wildcard.html
+				// Wildcard.count = count(*) 전체 레코드의 갯수를 구한다.
 		long total = queryFactory.select(Wildcard.count).from(QItem.item)
                 .where(regDtsAfter(itemSearchDto.getSearchDateType()),
                         searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
@@ -79,4 +82,45 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 		
 		return new PageImpl<>(content, pageable, total);
 	}
+												//검색어 들어있음
+	private BooleanExpression itemNmLike(String searchQuery) {
+			//StringUtils : 문자열에 작업하는 관련 기능들을 모아놓은 라이브러리.
+		return StringUtils.isEmpty(searchQuery) ? null : QItem.item.itemNm.like("%" + searchQuery + "%");
+	}
+
+	//querydsl은 q클래스 사용함.
+	@Override
+	public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+			QItem item = QItem.item; //q클래스 불러옴.
+			QItemImg itemImg = QItemImg.itemImg;
+									//queryFactory : 원래 있는 것. 가져와서 사용함.
+			List<MainItemDto> content = queryFactory.select(
+					new QMainItemDto(
+					item.id,
+					item.itemNm,
+					item.itemDetail, //mainitemdto 객체로 바꿔준다. 그래서 리스트에 들어감.
+					itemImg.imgUrl,
+					item.price)
+				)
+				.from(itemImg)
+				.join(itemImg.item, item)
+				.where(itemImg.repimgYn.eq("Y")) //repimgYn : 처음 등록한 사진. 대표이미지
+				.where(itemNmLike(itemSearchDto.getSearchQuery())) //검색기능 구현
+				.orderBy(item.id.desc())
+				.offset(pageable.getOffset()) //데이터를 가져올 시작 index
+				.limit(pageable.getPageSize()) //한 번에 가지고 올 최대 개수 ----> offset, limit은 공식처럼 써주면 됨.
+				.fetch();
+												
+			long total = queryFactory
+					.select(Wildcard.count) // wildcard.count = count(*)
+					.from(itemImg)
+					.join(itemImg.item, item)
+					.where(itemImg.repimgYn.eq("Y")) //repimgYn : 처음 등록한 사진. 대표이미지
+					.where(itemNmLike(itemSearchDto.getSearchQuery())) //검색기능 구현
+					.fetchOne();
+							//
+		return new PageImpl<>(content, pageable, total);
+	}
+	
+	
 }

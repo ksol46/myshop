@@ -78,20 +78,25 @@ select {
 				<ul class="pagination d-flex justify-content-center">
 					<li class="page-item" th:classappend="${items.first}?'disabled'">
 						<a class="page-link"
-						th:onclick="'javascript:page(' + ${items.number - 1} +')'">Previous</a>
+						th:onclick="'javascript:page(' + ${items.number - 1} +')'">이전</a>
 					</li>
 					<li class="page-item"
-						th:each="page: ${#numbers.sequence(start, end)}"><a
+						th:each="page: ${#numbers.sequence(start, end)}"
+						th:classappend="${items.number eq page-1}?'active':''"><a
 						class="page-link" th:inline="text"
 						th:onclick="'javascript:page(' + ${page - 1} +')'">[[${page}]]</a>
 					</li>
 					<li class="page-item" th:classappend="${items.last}?'disabled'">
 						<a class="page-link"
-						th:onclick="'javascript:page(' + ${items.number + 1} +')'">Next</a>
+						th:onclick="'javascript:page(' + ${items.number + 1} +')'">다음</a>
 					</li>
 				</ul>
 			</nav>
-
+			
+		<!-- 밑에처럼 찍어보면서 페이징 처리 이해해보기..-->
+		item.number : [[${items.number}]]
+		maxPage : [[${maxPage}]]
+		
 			<!-- 검색창 -->
 			<div class="d-flex justify-content-center"
 				th:object="${itemSearchDto}" style="height: 40px;">
