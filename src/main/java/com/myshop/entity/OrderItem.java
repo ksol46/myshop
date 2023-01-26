@@ -37,7 +37,7 @@ public class OrderItem extends BaseEntity {
 		orderItem.setCount(count);
 		orderItem.setOrderPrice(item.getPrice());
 		
-		item.removeStock(count);
+		item.removeStock(count); //재고를 감소시킴
 		
 		return orderItem;
 	}
