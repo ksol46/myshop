@@ -93,7 +93,7 @@
 			</div>
 			<p th:if="${#fields.hasErrors('itemDetail')}" th:errors="*{itemDetail}" class="fieldError">Incorrect Data</p>
 			
-			<!-- 등록할때 -->
+			<!-- 등록할때 / -->
 			<div th:if="${#lists.isEmpty(itemFormDto.itemImgDtoList)}">
 				<div th:each="num: ${#numbers.sequence(1,5)}">
 					<div class="mb-3">

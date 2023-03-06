@@ -1,7 +1,5 @@
 package com.myshop.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.*;
 import com.myshop.constant.ItemSellStatus;
 import com.myshop.dto.ItemFormDto;

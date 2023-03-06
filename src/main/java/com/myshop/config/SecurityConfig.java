@@ -39,6 +39,8 @@ public class SecurityConfig {
 				.logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 url }
 				.logoutSuccessUrl("/"); // 로그아웃 성공 시 이동할 url
 
+		
+		
 		//페이지의 접근에 관한 설정
 		http.authorizeHttpRequests()
 			.mvcMatchers("/css/**", "/js/**", "/img/**").permitAll()

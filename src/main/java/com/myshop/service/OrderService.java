@@ -99,7 +99,7 @@ public class OrderService {
 		order.cancelOrder();
 	}
 	
-	//주문 삭제 / order entity에 관계성을 다 매핑해놨기 떄문에 oeders에서 지우면 orderitem도 같이 지워짐.
+	//주문 삭제 / order entity에 관계성을 다 매핑해놨기 떄문에 orders에서 지우면 orderitem도 같이 지워짐.
 	public void deleteOrder(Long orderId) {
 		Order order = orderRepository.findById(orderId)
 									 .orElseThrow(EntityNotFoundException::new);

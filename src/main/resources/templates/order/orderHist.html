@@ -71,6 +71,7 @@
 				url : url,
 				type : "DELETE",
 				contentType : "application/json",
+				data : param,
 				beforeSend : function(xhr) {
 					/* 데이터 전송 전에 header에 csrf 값을 설정 */
 					xhr.setRequestHeader(header, token);
